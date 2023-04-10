@@ -1,22 +1,40 @@
 import React from 'react'
-
+import PropTypes from 'prop-types'
 import { Container, Name, Description, Footer, Lang, Link } from './styles'
 
-function Repository() {
+import { langColors } from '../../../../services/config'
+
+function Repository({ repository }) {
+
+  // eslint-disable-next-line react/prop-types
+  const color = langColors[repository.language && repository.language.toLowerCase()];
+
   return (
-    <Container>
-      <Name>Repository Name</Name>
-      <Description>Repository Description</Description>
-      <Footer color="#f37272">
+    <Container color={color}>
+      <Name>{repository.name}</Name>
+      <Description>{repository.description}</Description>
+      <Footer color={color}>
         <Lang>
-          Repository Lang
+        {repository.language}
         </Lang>
-        <Link href='https://devsamurai.com.br' target='_blank'>
+        <Link href={repository.html_url} target='_blank'>
           Ver
         </Link>
       </Footer>
     </Container>
   )
+}
+
+Repository.propTypes = {
+  repository: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      html_url: PropTypes.string.isRequired,
+      language: PropTypes.string,
+    }).isRequired
+  ).isRequired,
 }
 
 export default Repository
