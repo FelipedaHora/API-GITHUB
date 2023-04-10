@@ -6,6 +6,8 @@ const api = axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL,
 });
 
+export const getUser = async (login) => api.get(`/users/${login}`);
+
 export default api;
 
 export const getLangsFrom = (repositories) => {
@@ -19,7 +21,7 @@ export const getLangsFrom = (repositories) => {
 
   delete stats.null;
 
-  stats =  Object.keys(stats)
+  stats = Object.keys(stats)
     .map((language) => ({
       name: language,
       count: stats[language],

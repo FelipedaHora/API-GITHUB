@@ -1,26 +1,37 @@
-import React, {useState} from 'react'
+import React, { useState, useEffect } from 'react'
 
 import Profile from './Profile'
 import Filter from './Filter'
 import Repositories from './Repositories'
 
-import { Container, Sidebar, Main } from './styles'
-import { getLangsFrom } from '../../services/api'
+import { Loading, Container, Sidebar, Main } from './styles'
+import { getUser, getLangsFrom } from '../../services/api'
 
 function RepositoriesPage() {
-
+  const [user, setUser] = useState();
   const [currentLanguage, setCurrentLanguage] = useState();
+  const [loading, setLoading] = useState(true);
 
-  const user = {
-    login: "FelipedaHora",
-    name: "Felipe da Hora",
-    avatar_url: "https://avatars.githubusercontent.com/u/97544007?v=4",
-    followers: 0,
-    following: 0,
-    company: null,
-    blog: "https://www.instagram.com/felipedahora09/",
-    location: "Paranavaí - PR",
-  };
+  useEffect(() => {
+    const loadData = async () => {
+      const [userResponse] = await Promise.all([getUser('FelipedaHora')]);
+      setUser(userResponse.data);
+
+      setLoading(false);
+    }
+    loadData();
+  }, []);
+
+  /*   const user = {
+      login: "FelipedaHora",
+      name: "Felipe da Hora",
+      avatar_url: "https://avatars.githubusercontent.com/u/97544007?v=4",
+      followers: 0,
+      following: 0,
+      company: null,
+      blog: "https://www.instagram.com/felipedahora09/",
+      location: "Paranavaí - PR",
+    }; */
 
   const repositories = [
     {
@@ -73,17 +84,21 @@ function RepositoriesPage() {
     setCurrentLanguage(language);
   }
 
+  if (loading) {
+    return <Loading>Carregando...</Loading>
+  }
+
   return (
     <Container>
       <Sidebar>
-        <Profile user={user}/>
-        <Filter 
+        <Profile user={user} />
+        <Filter
           languages={languages}
-          currentLanguage={currentLanguage} 
-          onClick={onFilterClick}/>
+          currentLanguage={currentLanguage}
+          onClick={onFilterClick} />
       </Sidebar>
       <Main>
-        <Repositories repositories={repositories} currentLanguage={currentLanguage}/>
+        <Repositories repositories={repositories} currentLanguage={currentLanguage} />
       </Main>
     </Container>
   );
