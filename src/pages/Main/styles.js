@@ -1,13 +1,13 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: right;
-  text-align: right;
-  max-height: 100vh;
+  justify-content: center;
+  text-align: center;
+  min-height: 100vh;
   padding: 0 2rem;
 `;
 
@@ -21,15 +21,15 @@ export const Title = styled.h1`
 `;
 
 export const Form = styled.div`
-  width: 100%;
-  max-width: 583px;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  max-width: 583px;
 `;
 
 export const Input = styled.input`
-  background: rgba(0,0,0, 0.8);
+  background: rgba(0, 0, 0, 0.8);
   width: 100%;
   height: 64px;
   line-height: 64px;
@@ -37,8 +37,9 @@ export const Input = styled.input`
   font-size: 24px;
   margin-right: 24px;
   padding: 0 24px;
+  color:  ${(props) => props.theme.colors.white};
 
-  &::placeholder{
+  &::placehoder {
     color: ${(props) => props.theme.colors.metalDark};
   }
 `;
@@ -54,8 +55,7 @@ export const Button = styled(Link)`
   border: 3px solid ${(props) => props.theme.colors.text};
   transition: background 0.3s;
 
-  &:hover{
+  &:hover {
     background: ${(props) => props.theme.colors.container};
   }
-
 `;
